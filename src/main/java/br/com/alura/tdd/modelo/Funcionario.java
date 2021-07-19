@@ -19,11 +19,7 @@ public class Funcionario {
 		return salario;
 	}
 
-	public String getNome() {
-		return nome;
-	}
-
-	public LocalDate getDataAdmissao() {
-		return dataAdmissao;
+	public void reajustarSalario(BigDecimal valor) {
+		this.salario = this.salario.add(valor);
 	}
 }
