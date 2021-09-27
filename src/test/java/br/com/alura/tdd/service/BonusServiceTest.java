@@ -1,6 +1,7 @@
 package br.com.alura.tdd.service;
 
 import br.com.alura.tdd.modelo.Funcionario;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,33 +19,26 @@ class BonusServiceTest {
     @BeforeEach
     void setup(){
         bonusService = new BonusService();
-        funcionario = new Funcionario("Ana", LocalDate.now(), new BigDecimal("25000"));
+        funcionario = new Funcionario("Ana", LocalDate.now(), new BigDecimal("0"));
         bonus = bonusService.calcularBonus(funcionario);
     }
 
     @Test
     void calcBonusZeroParaFuncComSalarioMuitoAlto() {
-        assertThrows(IllegalArgumentException.class, () -> bonusService.calcularBonus(new Funcionario("Ana", LocalDate.now(), new BigDecimal("25000"))));
+        funcionario.setSalario(new BigDecimal("30000"));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> bonusService.calcularBonus(funcionario),
+                "Bonus fora do escopo de reajuste salario, valor bonus base maior que 1000");
     }
 
-    @Test
-    void calcBonusZeroParaFuncComSalarioMuitoAlto2() {
-        try {
-            bonusService.calcularBonus(funcionario);
-            fail("Not be exception");
-        }catch (IllegalArgumentException e){
-            assertEquals("Bonus fora do escopo de reajuste salario.", e.getMessage());
-        }
-    }
-
-    //todo continuar daq 
     @Test
     void calcBonusDeveriaSer10PorCentoDoSalario() {
-        assertEquals(new BigDecimal("250.0"), bonus);
+        funcionario.setSalario(new BigDecimal("2500"));
+        assertEquals(new BigDecimal("250.0"), bonusService.calcularBonus(funcionario));
     }
 
     @Test
     void calcBonusDeveriaSer10PorCentoDoSalarioDe10000Reais() {
-        assertEquals(new BigDecimal("1000.0"), bonus);
+        funcionario.setSalario(new BigDecimal("1000"));
+        assertEquals(new BigDecimal("100.0"), bonusService.calcularBonus(funcionario));
     }
 }
