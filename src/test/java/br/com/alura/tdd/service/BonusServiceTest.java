@@ -1,7 +1,6 @@
 package br.com.alura.tdd.service;
 
 import br.com.alura.tdd.modelo.Funcionario;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +25,7 @@ class BonusServiceTest {
     @Test
     void calcBonusZeroParaFuncComSalarioMuitoAlto() {
         funcionario.setSalario(new BigDecimal("30000"));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> bonusService.calcularBonus(funcionario),
+        assertThrows(IllegalArgumentException.class, () -> bonusService.calcularBonus(funcionario),
                 "Bonus fora do escopo de reajuste salario, valor bonus base maior que 1000");
     }
 
